@@ -48,7 +48,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="right-phone-box">
-                        <p>Call US :- <a href="#"> {{home_page.call_number}}</a></p>
+                        <p>Call US :- <a href="tel:{{home_page.call_number}}"> {{home_page.call_number}}</a></p>
                     </div>
                     <div class="our-link">
                         <ul>
@@ -68,30 +68,17 @@
                     <div class="text-slid-box">
                         <div id="offer-box" class="carouselTicker">
                             <ul class="offer-box">
+
+                                {% for i in home_page.offer_title.all %}
                                 <li>
-                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: offT80
+                                    <i class="fab fa-opencart"></i> {{i.title|title}}
                                 </li>
-                                <li>
+                                {% endfor %}
+
+
+                                <!-- <li>
                                     <i class="fab fa-opencart"></i> 50% - 80% off on Vegetables
-                                </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> Off 10%! Shop Vegetables
-                                </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now
-                                </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> Off 10%! Shop Vegetables
-                                </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> 50% - 80% off on Vegetables
-                                </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: offT30
-                                </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -113,7 +100,6 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static '/home/images/logo.png' %}" class="logo" alt=""></a> -->
                     <a class="navbar-brand" href="{% url 'home' %}">
                         {% if home_page.logo %}
                         <img src="{{home_page.logo.url}}" class="logo" alt="" style="height: 70px;">
@@ -128,21 +114,21 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">About Us</a></li>
                         <li class="dropdown">
                             <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
                             <ul class="dropdown-menu">
-                                <li><a href="shop.html">Sidebar Shop</a></li>
-                                <li><a href="shop-detail.html">Shop Detail</a></li>
-                                <li><a href="cart.html">Cart</a></li>
-                                <li><a href="checkout.html">Checkout</a></li>
-                                <li><a href="my-account.html">My Account</a></li>
-                                <li><a href="wishlist.html">Wishlist</a></li>
+                                <li><a href="{% url 'home' %}">Sidebar Shop</a></li>
+                                <li><a href="{% url 'home' %}">Shop Detail</a></li>
+                                <li><a href="{% url 'home' %}">Cart</a></li>
+                                <li><a href="{% url 'home' %}">Checkout</a></li>
+                                <li><a href="{% url 'home' %}">My Account</a></li>
+                                <li><a href="{% url 'home' %}">Wishlist</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Gallery</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Contact Us</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -152,7 +138,7 @@
                     <ul>
                         <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
                         <li class="side-menu">
-                            <a href="#">
+                            <a href="">
                                 <i class="fa fa-shopping-bag"></i>
                                 <span class="badge">3</span>
                                 <p>My Cart</p>
@@ -173,18 +159,7 @@
                             <h6><a href="#">Delica omtantur </a></h6>
                             <p>1x - <span class="price">$80.00</span></p>
                         </li>
-                        <li>
-                            <a href="#" class="photo"><img src="{% static '/home/images/img-pro-02.jpg' %}"
-                                    class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Omnes ocurreret</a></h6>
-                            <p>1x - <span class="price">$60.00</span></p>
-                        </li>
-                        <li>
-                            <a href="#" class="photo"><img src="{% static '/home/images/img-pro-03.jpg' %}"
-                                    class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Agam facilisis</a></h6>
-                            <p>1x - <span class="price">$40.00</span></p>
-                        </li>
+
                         <li class="total">
                             <a href="#" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
                             <span class="float-right"><strong>Total</strong>: $180.00</span>
@@ -229,16 +204,18 @@
                             <h4>Contact Us</h4>
                             <ul>
                                 <li>
-                                    <p><i class="fas fa-map-marker-alt"></i>Address: Michael I. Days 3756 <br>Preston
-                                        Street Wichita,<br> KS 67213 </p>
+                                    <p><i class="fas fa-map-marker-alt"></i>Address: {{footer_contact_us.address}}
                                 </li>
                                 <li>
-                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770">+1-888 705
-                                            770</a></p>
+                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:{{footer_contact_us.phone_number}}">
+                                        {{footer_contact_us.phone_number}}
+                                    </a></p>
                                 </li>
                                 <li>
-                                    <p><i class="fas fa-envelope"></i>Email: <a
-                                            href="mailto:contactinfo@gmail.com">contactinfo@gmail.com</a></p>
+                                    <p><i class="fas fa-envelope"></i>Email: 
+                                        <a href="mailto:{{footer_contact_us.email}}">
+                                            {{footer_contact_us.email}}
+                                        </a></p>
                                 </li>
                             </ul>
                         </div>
@@ -248,12 +225,11 @@
                         <div class="footer-link">
                             <h4>Information</h4>
                             <ul>
-                                <li><a href="#"> About Us</a></li>
-                                <li><a href="#"> Customer Service</a></li>
-                                <li><a href="#"> Our Sitemap</a></li>
-                                <li><a href="#"> Terms &amp; Conditions</a></li>
-                                <li><a href="#"> Privacy Policy</a></li>
-                                <li><a href="#"> Delivery Information</a></li>
+                                {% for footer_useful_links in footer_useful_links %}
+                                <li><a href="{{footer_useful_links.url}}"> 
+                                    {{footer_useful_links.title|title}}
+                                </a></li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
@@ -261,15 +237,33 @@
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="footer-top-box">
                             <h3>Social Media</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <p>Connect With our Social Media.</p>
                             <ul>
-                                <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
+                                <li>
+                                    <a {% if footer_social_links.facebook %} href="{{footer_social_links.facebook}}" target="_blank" {% endif %}>
+                                        <i class="fab fa-facebook" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a {% if footer_social_links.twitter %} href="{{footer_social_links.twitter}}" target="_blank" {% endif %}>
+                                        <i class="fab fa-twitter" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a {% if footer_social_links.linkdin %} href="{{footer_social_links.linkdin}}" target="_blank" {% endif %}>
+                                        <i class="fab fa-linkedin" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a {% if footer_social_links.youtube %} href="{{footer_social_links.youtube}}" target="_blank" {% endif %}>
+                                        <i class="fab fa-youtube" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a {% if footer_social_links.whatsapp %} href="{{footer_social_links.whatsapp}}" target="_blank" {% endif %}>
+                                        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -285,7 +279,7 @@
     <!-- Start copyright  -->
     <div class="footer-copyright">
         <p class="footer-company">All Rights Reserved. &copy; 2024 <a href="#">Alex Roger Finds</a> Design By :
-            <a href="https://html.design/">html design</a> & Developed By: <a href="" target="_blank">Samim Osman</a>
+            <a href="https://html.design/">html design</a> & Developed By: <a href="https://www.facebook.com/samim.o.sabuj03/" target="_blank">Samim Osman</a>
         </p>
     </div>
     <!-- End copyright  -->

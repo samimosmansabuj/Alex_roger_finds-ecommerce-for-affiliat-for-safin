@@ -9,20 +9,24 @@ Home
 <!-- Start Slider -->
 <div id="slides-shop" class="cover-slides">
     <ul class="slides-container">
+
+        {% for slide in home_page.slider.all %}
         <li class="text-center">
-            <img src="{% static '/home/images/banner-01.jpg' %}" alt="">
+            <img src="{{slide.image.url}}" alt="">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="m-b-20"><strong>Welcome To <br> Freshshop</strong></h1>
-                        <p class="m-b-40">See how your users experience your website in realtime or view <br> trends
-                            to see any changes in performance over time.</p>
-                        <p><a class="btn hvr-hover" href="#">Shop New</a></p>
+                        <h1 class="m-b-20"></h1>
+                        <p class="m-b-40"></p>
+                        <p><a class="btn hvr-hover" href="{{slide.url}}">Shop New</a></p>
                     </div>
                 </div>
             </div>
         </li>
-        <li class="text-center">
+        {% endfor %}
+
+
+        <!-- <li class="text-center">
             <img src="{% static '/home/images/banner-02.jpg' %}" alt="">
             <div class="container">
                 <div class="row">
@@ -47,7 +51,8 @@ Home
                     </div>
                 </div>
             </div>
-        </li>
+        </li> -->
+
     </ul>
     <div class="slides-navigation">
         <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
@@ -69,32 +74,25 @@ Home
         </div>
 
         <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                <div class="shop-cat-box">
-                    <img class="img-fluid" src="{% static '/home/images/categories_img_01.jpg' %}" alt="" />
-                    <a class="btn hvr-hover" href="#">Lorem ipsum dolor</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                <div class="shop-cat-box">
-                    <img class="img-fluid" src="{% static '/home/images/categories_img_02.jpg' %}" alt="" />
-                    <a class="btn hvr-hover" href="#">Lorem ipsum dolor</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                 <div class="shop-cat-box">
                     <img class="img-fluid" src="{% static '/home/images/categories_img_03.jpg' %}" alt="" />
                     <a class="btn hvr-hover" href="#">Lorem ipsum dolor</a>
                 </div>
-            </div>
+            </div> -->
+            {% for all_category in all_category %}
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                <div class="shop-cat-box">
-                    <img class="img-fluid" src="{% static '/home/images/categories_img_03.jpg' %}" alt="" />
-                    <a class="btn hvr-hover" href="#">Lorem ipsum dolor</a>
+                <div class="">
+                    <a class="category-btn-style btn hvr-hover" href=""
+                        style="background-color: #b0b435; width: 100%; margin: auto; padding: 10px; text-align: center; font-weight: bold; color: white;">
+                        {{all_category.title|title}}
+                    </a>
                 </div>
             </div>
+            {% endfor %}
         </div>
     </div>
+</div>
 </div>
 <!-- End Categories -->
 
@@ -116,117 +114,51 @@ Home
                 <div class="special-menu text-center">
                     <div class="button-group filter-button-group">
                         <button class="active" data-filter="*">All</button>
-                        <button data-filter=".top-featured">Top featured</button>
-                        <button data-filter=".best-seller">Best seller</button>
+                        {% for all_category in all_category %}
+                        <button data-filter=".{{all_category.title}}">{{all_category.title|title}}</button>
+                        {% endfor %}
+
+                        <!-- <button data-filter=".top-featured">Top featured</button>
+                        <button data-filter=".best-seller">Best seller</button> -->
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row special-list">
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 special-grid best-seller">
+
+            {% for product in all_product %}
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 special-grid {{product.category.title}}">
                 <div class="products-single fix">
                     <div class="box-img-hover">
                         <div class="type-lb">
                             <p class="sale">Sale</p>
                         </div>
-                        <img src="{% static '/home/images/img-pro-01.jpg' %}" class="img-fluid" alt="Image">
+                        <img src="{{product.image.url}}" class="img-fluid" alt="Image">
                         <div class="mask-icon">
                             <ul>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i
-                                            class="fas fa-eye"></i></a></li>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i
-                                            class="fas fa-sync-alt"></i></a></li>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right"
-                                        title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                <li>
+                                    <a href="#" data-toggle="tooltip" data-placement="right" title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </a></li>
+                                <li>
+                                    <a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist">
+                                        <i class="far fa-heart"></i>
+                                    </a>
+                                </li>
                             </ul>
-                            <a class="cart" href="#">Add to Cart</a>
+                            <a class="cart" href="{{product.url}}" target="_blank">Add to Cart</a>
                         </div>
                     </div>
                     <div class="why-text">
-                        <h4>Lorem ipsum dolor sit amet</h4>
-                        <h5> $7.79</h5>
+                        <h4>{{product.title|title}}</h4>
+                        <h5> ${{product.discount_price}} <del>${{product.price}}</del></h5>
                     </div>
                 </div>
             </div>
+            {% endfor %}
 
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 special-grid top-featured">
-                <div class="products-single fix">
-                    <div class="box-img-hover">
-                        <div class="type-lb">
-                            <p class="new">New</p>
-                        </div>
-                        <img src="{% static '/home/images/img-pro-02.jpg' %}" class="img-fluid" alt="Image">
-                        <div class="mask-icon">
-                            <ul>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i
-                                            class="fas fa-eye"></i></a></li>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i
-                                            class="fas fa-sync-alt"></i></a></li>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right"
-                                        title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                            </ul>
-                            <a class="cart" href="#">Add to Cart</a>
-                        </div>
-                    </div>
-                    <div class="why-text">
-                        <h4>Lorem ipsum dolor sit amet</h4>
-                        <h5> $9.79</h5>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 special-grid top-featured">
-                <div class="products-single fix">
-                    <div class="box-img-hover">
-                        <div class="type-lb">
-                            <p class="sale">Sale</p>
-                        </div>
-                        <img src="{% static '/home/images/img-pro-03.jpg' %}" class="img-fluid" alt="Image">
-                        <div class="mask-icon">
-                            <ul>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i
-                                            class="fas fa-eye"></i></a></li>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i
-                                            class="fas fa-sync-alt"></i></a></li>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right"
-                                        title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                            </ul>
-                            <a class="cart" href="#">Add to Cart</a>
-                        </div>
-                    </div>
-                    <div class="why-text">
-                        <h4>Lorem ipsum dolor sit amet</h4>
-                        <h5> $10.79</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 special-grid best-seller">
-                <div class="products-single fix">
-                    <div class="box-img-hover">
-                        <div class="type-lb">
-                            <p class="sale">Sale</p>
-                        </div>
-                        <img src="{% static '/home/images/img-pro-04.jpg' %}" class="img-fluid" alt="Image">
-                        <div class="mask-icon">
-                            <ul>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i
-                                            class="fas fa-eye"></i></a></li>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i
-                                            class="fas fa-sync-alt"></i></a></li>
-                                <li><a href="#" data-toggle="tooltip" data-placement="right"
-                                        title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                            </ul>
-                            <a class="cart" href="#">Add to Cart</a>
-                        </div>
-                    </div>
-                    <div class="why-text">
-                        <h4>Lorem ipsum dolor sit amet</h4>
-                        <h5> $15.79</h5>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -244,69 +176,29 @@ Home
             </div>
         </div>
         <div class="row">
+
+            {% for blog in blogs %}
             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
                 <div class="blog-box">
                     <div class="blog-img">
-                        <img class="img-fluid" src="{% static '/home/images/blog-img.jpg' %}" alt="" />
+                        <img class="img-fluid" src="{{blog.image.url}}" alt="" />
                     </div>
                     <div class="blog-content">
                         <div class="title-blog">
-                            <h3>Fusce in augue non nisi fringilla</h3>
-                            <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet
-                                urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed
-                                mollis. Praesent laoreet lacinia elit id lobortis.</p>
+                            <h3>{{blog.title.title}}</h3>
+                            <p>{{blog.short_description|truncatewords:10}}</p>
                         </div>
                         <ul class="option-blog">
-                            <li><a href="#"><i class="far fa-heart"></i></a></li>
                             <li><a href="#"><i class="fas fa-eye"></i></a></li>
                             <li><a href="#"><i class="far fa-comments"></i></a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                <div class="blog-box">
-                    <div class="blog-img">
-                        <img class="img-fluid" src="{% static '/home/images/blog-img-01.jpg' %}" alt="" />
-                    </div>
-                    <div class="blog-content">
-                        <div class="title-blog">
-                            <h3>Fusce in augue non nisi fringilla</h3>
-                            <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet
-                                urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed
-                                mollis. Praesent laoreet lacinia elit id lobortis.</p>
-                        </div>
-                        <ul class="option-blog">
-                            <li><a href="#"><i class="far fa-heart"></i></a></li>
-                            <li><a href="#"><i class="fas fa-eye"></i></a></li>
-                            <li><a href="#"><i class="far fa-comments"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                <div class="blog-box">
-                    <div class="blog-img">
-                        <img class="img-fluid" src="{% static '/home/images/blog-img-02.jpg' %}" alt="" />
-                    </div>
-                    <div class="blog-content">
-                        <div class="title-blog">
-                            <h3>Fusce in augue non nisi fringilla</h3>
-                            <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet
-                                urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed
-                                mollis. Praesent laoreet lacinia elit id lobortis.</p>
-                        </div>
-                        <ul class="option-blog">
-                            <li><a href="#"><i class="far fa-heart"></i></a></li>
-                            <li><a href="#"><i class="fas fa-eye"></i></a></li>
-                            <li><a href="#"><i class="far fa-comments"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
+
         </div>
     </div>
 </div>
 <!-- End Blog  -->
 {% endblock body_content %}
-
