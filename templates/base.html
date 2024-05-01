@@ -12,7 +12,7 @@
 
     <!-- Site Metas -->
     <title>
-        Alex Roger Finds
+        Alex Roger Finds | 
         {% block title %}
         Base
         {% endblock title %}
@@ -60,10 +60,13 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="login-box">
-                        <select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In">
-                            <option>Register Here</option>
+
+                        <a href="{% url 'my_account' %}" style="background: #b0b435;padding: 5px 20px;color: white;font-weight: bold;"> My Account</a>
+
+                        <!-- <select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In">
+                            <option><a href="{% url 'registration' %}">Register Here</a></option>
                             <option>Sign In</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="text-slid-box">
                         <div id="offer-box" class="carouselTicker">
@@ -138,7 +141,7 @@
                     <ul>
                         <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
                         <li class="side-menu">
-                            <a href="">
+                            <a href="#">
                                 <i class="fa fa-shopping-bag"></i>
                                 <span class="badge">3</span>
                                 <p>My Cart</p>

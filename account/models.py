@@ -11,10 +11,13 @@ class Custom_User(AbstractUser):
         ('Staff', 'Staff'),
         ('Customer', 'Customer')
     )
-    
+    email = models.EmailField(max_length=200, unique=True)
     phone_number = models.CharField(max_length=14, blank=True, null=True)
     user_type = models.CharField(choices=USER_TYPE, max_length=20)
     is_verified = models.BooleanField(default=False)
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
     
     def __str__(self) -> str:
         return self.username
