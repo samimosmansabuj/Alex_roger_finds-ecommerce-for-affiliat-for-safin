@@ -8,41 +8,70 @@ Registration
 {% block body_content %}
 <div class="col-lg-12 col-sm-12">
     <div class="contact-form-right" style="text-align: center; margin: auto; width: 50%;">
-        <h2>Please, Login Your Account</h2>
-        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed odio justo, ultrices ac nisl sed, lobortis porta elit. Fusce in metus ac ex venenatis ultricies at cursus mauris.</p> -->
-        <form id="contactForm" novalidate="true">
+        <h2>Please, Create an Account</h2>
+        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed odio justo, ultrices ac nisl sed, lobortis porta elit. Fusce in metus ac ex venenatis ultricies at cursus mauris.</p>samimosman2 -->
+        
+        <form id="loginForm" method="POST">
+            
+            {% csrf_token %}
+
             <div class="row">
+
                 <div class="col-md-12">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required="" data-error="Please enter your name">
-                        <div class="help-block with-errors"></div>
+                        <!-- <input type="text" placeholder="Your Name" id="email" class="form-control" name="name" required="" data-error="Please enter your name"> -->
+                        
+                        {{form.first_name}}
+                        <p><i>{{ form.first_name.errors }}</i></p>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <!-- <input type="email" placeholder="Your Email" id="email" class="form-control" name="name" required="" data-error="Please enter your email"> -->
+                        
+                        {{form.email}}
+                        <p><i>{{ form.email.errors }}</i></p>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <!-- <input type="text" placeholder="Your Username" id="email" class="form-control" name="name" required="" data-error="Please enter your username"> -->
+                        
+                        {{form.username}}
+                        <p><i>{{ form.username.errors }}</i></p>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <!-- <input type="password" class="form-control" id="subject" name="name" placeholder="Your Password" required="" data-error="Please enter your password"> -->
+                        
+                        {{form.password1}}
+                        <p><i>{{ form.password1.errors }}</i></p>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <input type="text" placeholder="Your Email" id="email" class="form-control" name="name" required="" data-error="Please enter your email">
-                        <div class="help-block with-errors"></div>
+                        <!-- <input type="password" class="form-control" id="subject" name="name" placeholder="Repeat Password" required="" data-error="Please enter your password again"> -->
+                        
+                        {{form.password2}}
+                        <p><i>{{ form.password2.errors }}</i></p>
                     </div>
                 </div>
+                <!-- {{form.as_table}} -->
+
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="subject" name="name" placeholder="Subject" required="" data-error="Please enter your Subject">
-                        <div class="help-block with-errors"></div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <textarea class="form-control" id="message" placeholder="Your Message" rows="4" data-error="Write your message" required=""></textarea>
-                        <div class="help-block with-errors"></div>
-                    </div>
                     <div class="submit-button text-center">
-                        <button class="btn hvr-hover disabled" id="submit" type="submit" style="pointer-events: all; cursor: pointer;">Login</button>
+                        <button class="btn hvr-hover" id="submit" type="submit" style="pointer-events: all; cursor: pointer;">Registration</button>
                         <div id="msgSubmit" class="h3 text-center hidden"></div>
                         <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
         </form>
+        <p>Already you have an account? <a href="{% url 'login' %}">Login</a></p>
     </div>
 </div>
 {% endblock body_content %}

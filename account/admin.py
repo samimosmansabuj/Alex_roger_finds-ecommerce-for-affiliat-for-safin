@@ -9,7 +9,7 @@ class Custom_User_Admin(admin.ModelAdmin):
     search_fields = ['username', 'email', 'phone_number', 'user_type']
 
 
-admin.site.register(User_Authentication_Verification)
-admin.site.register(Customer_Profile)
-admin.site.register(AdminStaff_Profile)
+# admin.site.register(User_Authentication_Verification)
+# admin.site.register(Customer_Profile)
+# admin.site.register(AdminStaff_Profile)
 

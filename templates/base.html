@@ -12,7 +12,7 @@
 
     <!-- Site Metas -->
     <title>
-        Alex Roger Finds | 
+        Alex Roger Finds |
         {% block title %}
         Base
         {% endblock title %}
@@ -26,7 +26,8 @@
     <link rel="apple-touch-icon" href="{% static '/home/images/apple-touch-icon.png' %}">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static '/home/css/bootstrap.min.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <!-- Site CSS -->
     <link rel="stylesheet" href="{% static '/home/css/style.css' %}">
     <!-- Responsive CSS -->
@@ -52,7 +53,6 @@
                     </div>
                     <div class="our-link">
                         <ul>
-                            <li><a href="#"><i class="fa fa-user s_color"></i> My Account</a></li>
                             <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
                             <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
                         </ul>
@@ -61,13 +61,36 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="login-box">
 
-                        <a href="{% url 'my_account' %}" style="background: #b0b435;padding: 5px 20px;color: white;font-weight: bold;"> My Account</a>
+                        <!-- <a  style="background: #b0b435;padding: 5px 20px;color: white;font-weight: bold;"> My Account</a> -->
+
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                {% if request.user.is_authenticated %}
+                                My Account
+                                {% else %}
+                                Login
+                                {% endif %}
+                            </button>
+                            <ul class="dropdown-menu">
+                                {% if request.user.is_authenticated %}
+                                <li><a class="dropdown-item" type="button" href="{% url 'my_account' %}">My Account</a></li>
+                                <li><a class="dropdown-item" type="button" href="{% url 'FavList' %}">Fav List</a></li>
+                                <li><a class="dropdown-item" type="button" href="{% url 'logout' %}">Logout</a></li>
+                                {% else %}
+                                <li><a class="dropdown-item" type="button" href="{% url 'login' %}">Login</a></li>
+                                <li><a class="dropdown-item" type="button" href="{% url 'registration' %}">Registration</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
 
                         <!-- <select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In">
                             <option><a href="{% url 'registration' %}">Register Here</a></option>
                             <option>Sign In</option>
                         </select> -->
                     </div>
+
+
                     <div class="text-slid-box">
                         <div id="offer-box" class="carouselTicker">
                             <ul class="offer-box">
@@ -120,18 +143,9 @@
                         <li class="nav-item active"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">About Us</a></li>
                         <li class="dropdown">
-                            <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{% url 'home' %}">Sidebar Shop</a></li>
-                                <li><a href="{% url 'home' %}">Shop Detail</a></li>
-                                <li><a href="{% url 'home' %}">Cart</a></li>
-                                <li><a href="{% url 'home' %}">Checkout</a></li>
-                                <li><a href="{% url 'home' %}">My Account</a></li>
-                                <li><a href="{% url 'home' %}">Wishlist</a></li>
-                            </ul>
+                            <a href="#" class="nav-link" data-toggle="dropdown">SHOP</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Gallery</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'FavList' %}">Fav List</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -140,10 +154,13 @@
                 <div class="attr-nav">
                     <ul>
                         <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                        
                         <li class="side-menu">
                             <a href="#">
                                 <i class="fa fa-shopping-bag"></i>
-                                <span class="badge">3</span>
+                                {% if favourite_list %}
+                                <span class="badge" style="color: black;">{{favourite_list.product.count}}</span>
+                                {% endif %}
                                 <p>My Cart</p>
                             </a>
                         </li>
@@ -156,21 +173,28 @@
                 <a href="#" class="close-side"><i class="fa fa-times"></i></a>
                 <li class="cart-box">
                     <ul class="cart-list">
+                        {% if favourite_list and favourite_list.product.exists %}
+                        {% for favourite_list in favourite_list.product.all %}
                         <li>
-                            <a href="#" class="photo"><img src="{% static '/home/images/img-pro-01.jpg' %}"
+                            <a href="{% url 'product_details' favourite_list.id favourite_list.slug %}" class="photo"><img src="{{favourite_list.image.url}}"
                                     class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Delica omtantur </a></h6>
-                            <p>1x - <span class="price">$80.00</span></p>
+                            <h6><a href="{% url 'product_details' favourite_list.id favourite_list.slug %}">{{favourite_list.title|title}} </a></h6>
+                            <p>1x - <span class="price">${{favourite_list.discount_price}}</span></p>
                         </li>
+                        {% endfor %}
+                        {% else %}
+                        <p style="margin: auto; font-weight: bold; text-align: center; padding: 5px;">No Found</p>
+                        {% endif %}
 
-                        <li class="total">
-                            <a href="#" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
-                            <span class="float-right"><strong>Total</strong>: $180.00</span>
+                        <li class="total" style="text-align: center;">
+                            <a href="{% url 'FavList' %}" class="btn btn-default hvr-hover btn-cart">VIEW FAV</a>
                         </li>
                     </ul>
                 </li>
             </div>
             <!-- End Side Menu -->
+
+
         </nav>
         <!-- End Navigation -->
     </header>
@@ -191,7 +215,7 @@
 
     {% block body_content %}
 
-    
+
 
     {% endblock body_content %}
 
@@ -210,15 +234,17 @@
                                     <p><i class="fas fa-map-marker-alt"></i>Address: {{footer_contact_us.address}}
                                 </li>
                                 <li>
-                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:{{footer_contact_us.phone_number}}">
-                                        {{footer_contact_us.phone_number}}
-                                    </a></p>
+                                    <p><i class="fas fa-phone-square"></i>Phone: <a
+                                            href="tel:{{footer_contact_us.phone_number}}">
+                                            {{footer_contact_us.phone_number}}
+                                        </a></p>
                                 </li>
                                 <li>
-                                    <p><i class="fas fa-envelope"></i>Email: 
+                                    <p><i class="fas fa-envelope"></i>Email:
                                         <a href="mailto:{{footer_contact_us.email}}">
                                             {{footer_contact_us.email}}
-                                        </a></p>
+                                        </a>
+                                    </p>
                                 </li>
                             </ul>
                         </div>
@@ -229,9 +255,9 @@
                             <h4>Information</h4>
                             <ul>
                                 {% for footer_useful_links in footer_useful_links %}
-                                <li><a href="{{footer_useful_links.url}}"> 
-                                    {{footer_useful_links.title|title}}
-                                </a></li>
+                                <li><a href="{{footer_useful_links.url}}">
+                                        {{footer_useful_links.title|title}}
+                                    </a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -243,27 +269,32 @@
                             <p>Connect With our Social Media.</p>
                             <ul>
                                 <li>
-                                    <a {% if footer_social_links.facebook %} href="{{footer_social_links.facebook}}" target="_blank" {% endif %}>
+                                    <a {% if footer_social_links.facebook %} href="{{footer_social_links.facebook}}"
+                                        target="_blank" {% endif %}>
                                         <i class="fab fa-facebook" aria-hidden="true"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a {% if footer_social_links.twitter %} href="{{footer_social_links.twitter}}" target="_blank" {% endif %}>
+                                    <a {% if footer_social_links.twitter %} href="{{footer_social_links.twitter}}"
+                                        target="_blank" {% endif %}>
                                         <i class="fab fa-twitter" aria-hidden="true"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a {% if footer_social_links.linkdin %} href="{{footer_social_links.linkdin}}" target="_blank" {% endif %}>
+                                    <a {% if footer_social_links.linkdin %} href="{{footer_social_links.linkdin}}"
+                                        target="_blank" {% endif %}>
                                         <i class="fab fa-linkedin" aria-hidden="true"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a {% if footer_social_links.youtube %} href="{{footer_social_links.youtube}}" target="_blank" {% endif %}>
+                                    <a {% if footer_social_links.youtube %} href="{{footer_social_links.youtube}}"
+                                        target="_blank" {% endif %}>
                                         <i class="fab fa-youtube" aria-hidden="true"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a {% if footer_social_links.whatsapp %} href="{{footer_social_links.whatsapp}}" target="_blank" {% endif %}>
+                                    <a {% if footer_social_links.whatsapp %} href="{{footer_social_links.whatsapp}}"
+                                        target="_blank" {% endif %}>
                                         <i class="fab fa-whatsapp" aria-hidden="true"></i>
                                     </a>
                                 </li>
@@ -282,7 +313,8 @@
     <!-- Start copyright  -->
     <div class="footer-copyright">
         <p class="footer-company">All Rights Reserved. &copy; 2024 <a href="#">Alex Roger Finds</a> Design By :
-            <a href="https://html.design/">html design</a> & Developed By: <a href="https://www.facebook.com/samim.o.sabuj03/" target="_blank">Samim Osman</a>
+            <a href="https://html.design/">html design</a> & Developed By: <a
+                href="https://www.facebook.com/samim.o.sabuj03/" target="_blank">Samim Osman</a>
         </p>
     </div>
     <!-- End copyright  -->
@@ -290,6 +322,9 @@
     <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
 
     <!-- ALL JS FILES -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    
     <script src="{% static '/home/js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static '/home/js/popper.min.js' %}"></script>
     <script src="{% static '/home/js/bootstrap.min.js' %}"></script>

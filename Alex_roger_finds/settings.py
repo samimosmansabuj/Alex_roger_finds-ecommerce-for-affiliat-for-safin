@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'product.middleware.AnonymousUserMiddleware',
 ]
 
 ROOT_URLCONF = 'Alex_roger_finds.urls'

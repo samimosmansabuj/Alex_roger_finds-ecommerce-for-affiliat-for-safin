@@ -22,3 +22,6 @@ class Product_ModelAdmin(admin.ModelAdmin):
     list_filter = ['discount_price', 'created_date', 'updated_date']
     search_fields = ['title']
 
+
+admin.site.register(Fav_List)
+admin.site.register(Buy_Now_Click)

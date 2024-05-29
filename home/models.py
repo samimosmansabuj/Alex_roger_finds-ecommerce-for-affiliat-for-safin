@@ -52,6 +52,7 @@ class Home_Page_Settings(models.Model):
     def __str__(self) -> str:
         return f"Home Page Setting - {self.id}"
 
+
 class Footer_Contact_US(models.Model):
     address = models.CharField(max_length=500)
     phone_number = models.CharField(max_length=14)
@@ -60,6 +61,7 @@ class Footer_Contact_US(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
     
+
 class Footer_Useful_Links(models.Model):
     title = models.CharField(max_length=50)
     url = models.URLField(max_length=500)
@@ -69,6 +71,7 @@ class Footer_Useful_Links(models.Model):
     
     def __str__(self) -> str:
         return self.title
+
 
 class Footer_Social_Link(models.Model):
     facebook = models.URLField(max_length=500, blank=True, null=True)

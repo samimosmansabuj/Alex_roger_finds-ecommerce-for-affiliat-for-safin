@@ -147,11 +147,13 @@ Home
                                     </a>
                                 </li>
                             </ul>
-                            <a class="cart" href="{{product.url}}" target="_blank">Add to Cart</a>
+                            <a class="cart" href="{% url 'add_to_fav' product.id %}">Add to Cart</a>
                         </div>
                     </div>
                     <div class="why-text">
-                        <h4>{{product.title|title}}</h4>
+                        <h4>
+                            <a href="{% url 'product_details' product.id product.slug %}">{{product.title|title}}</a>
+                        </h4>
                         <h5> ${{product.discount_price}} <del>${{product.price}}</del></h5>
                     </div>
                 </div>
@@ -202,3 +204,4 @@ Home
 </div>
 <!-- End Blog  -->
 {% endblock body_content %}
+

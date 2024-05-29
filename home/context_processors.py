@@ -1,5 +1,6 @@
 from .models import Home_Page_Settings, Footer_Contact_US, Footer_Useful_Links, Footer_Social_Link, Blog_Model
-from product.models import Product, Category
+from product.models import Product, Category, Fav_List
+from django.shortcuts import get_object_or_404
 
 def home_page_settings(request):
     home_page = Home_Page_Settings.objects.all().first()
@@ -13,5 +14,15 @@ def home_page_settings(request):
 def Product_Category_Cart(request):
     all_category = Category.objects.filter(is_active=True)
     all_product = Product.objects.filter(is_active=True)
-    return {'all_category': all_category, 'all_product': all_product}
+    context = {'all_category': all_category, 'all_product': all_product}
+    
+    if request.user.is_authenticated:
+        if Fav_List.objects.filter(user=request.user).exists():
+            favourite_list = get_object_or_404(Fav_List, user=request.user)
+        else:
+            favourite_list = None
+        
+        context['favourite_list'] = favourite_list
+    
+    return context
 

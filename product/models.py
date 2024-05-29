@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
+from account.models import Custom_User
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -59,6 +61,29 @@ class Product(models.Model):
     
     def __str__(self) -> str:
         return self.title
+
+
+
+class Fav_List(models.Model):
+    user = models.ForeignKey(Custom_User, related_name='fav_list', on_delete=models.CASCADE)
+    product = models.ManyToManyField(Product, related_name='products')
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    
+    def __str__(self) -> str:
+        return self.user.username
+
+
+
+class Buy_Now_Click(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='buy_now_click', null=True, blank=True, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='buy_click_products', on_delete=models.CASCADE)
+    anonymous_identifier = models.CharField(max_length=255, null=True, blank=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    
+    def __str__(self) -> str:
+        return self.user.username if self.user else self.anonymous_identifier
 
 
 
